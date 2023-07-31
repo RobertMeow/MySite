@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect
 import random as r
+import json
 
 app = Flask(__name__)
 
@@ -12,7 +13,9 @@ def index():
 
 @app.route('/api-docs')
 def api_docs():
-    return render_template('docs.html')
+    with open('static/methods.json', 'r') as f:
+        api_methods = json.load(f)
+    return render_template('docs.html', apiMethods=api_methods)
 
 
 @app.route('/donate')

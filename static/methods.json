@@ -1,0 +1,12 @@
+{
+  "GetStickers": {
+    "description": "Get user stickers. Here's how to use it:",
+    "code": "import requests\n\nurl = \"https://api.hella.team/method/getStickers\"\nparams = {\n    \"v\": \"2\",\n    \"user_id\": 1\n}\n\nresp = requests.get(url, params=params)\nif resp.status_code != 200:\n    raise Exception(\"Error: {}\".format(resp.status_code))\nprint(resp.json())",
+    "output": "{\n  \"object\": {\n      \"all_price\": 10626,\n      \"all_price_vote\": 1518,\n      \"count\": 196,\n      \"items\": {\n          \"animation\": {\n              \"count\": 9,\n              \"names\": [\n                  \"Пси-Кот\",\n                  \"Анимированный Сеня\",\n                  // ...\n              ],\n              \"price_vote\": 160\n          },\n          \"free\": {\n              \"count\": 48,\n              \"names\": [\n                  \"Фруктовощи\",\n                  \"Спотти\",\n                  // ...\n              ],\n              \"price_vote\": 0\n          },\n          // ...\n      }\n  },\n  \"ok\": true\n}"
+  },
+  "GetSticker": {
+    "description": "Get information about the sticker pack, required parameter access_token",
+    "code": "import requests\n\nurl = \"https://api.hella.team/method/getSticker\"\nparams = {\n    \"v\": \"2\",\n    \"sticker_id\": 1,\n    \"product_id\": 1\n}\n\nresp = requests.get(url, params=params)\nif resp.status_code != 200:\n    raise Exception(\"Error: {}\".format(resp.status_code))\nprint(resp.json())",
+    "output": "{\n  \"object\": {\n      \"author\": \"Андрей Яковенко\",\n      \"author_id\": 11316927,\n      \"count\": 49,\n      \"description\": \"Чемпион по вилянию хвостом, верный друг и надёжная грелк\n  а.\",\n      \"is_anim\": false,\n      \"is_new\": false,\n      \"items\": [\n          \"лол\",\n          \"хаха\",\n          \"ахах\",\n          // ...\n      ],\n      \"price\": 0,\n      \"style_orig\": false,\n      \"title\": \"Спотти\",\n      \"unique\": false\n  },\n  \"ok\": true\n}"
+  }
+}

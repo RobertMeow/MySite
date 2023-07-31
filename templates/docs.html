@@ -1,209 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+{% extends "base.html" %}
 
-  <link rel="stylesheet" href="static/css/github.css">
-  <link rel="stylesheet" href="static/css/hljs.css"/>
+{% block title %}API Documentation{% endblock %}
+{% block header %}API Documentation{% endblock %}
+{% block content %}
 
-  <script src="static/js/hljs.js"></script>
-  <script src="static/js/hljs-go.js"></script>
-  <script src="static/js/hljs-line-n.js"></script>
-  <script src="static/js/hljs-copy.js"></script>
-
-  <script src="static/js/copyText.js"></script>
-  <script>
+<link rel="stylesheet" href="static/css/github.css">
+<link rel="stylesheet" href="static/css/hljs.css"/>
+<script src="static/js/hljs.js"></script>
+<script src="static/js/hljs-go.js"></script>
+<script src="static/js/hljs-line-n.js"></script>
+<script src="static/js/hljs-copy.js"></script>
+<script src="static/js/copyText.js"></script>
+<script>
     hljs.addPlugin(new CopyButtonPlugin());
     hljs.highlightAll();
     hljs.initLineNumbersOnLoad();
-  </script>
 
-  <title>API Documentation</title>
-  <link rel="shortcut icon" type="image/gif" href="static/img/favicon32x32RGBA.gif">
-  <style>
-    /* Add your own styles here */
-    body {
-      background-color: #010409;
-      color: white;
-      font-family: sans-serif;
-      text-align: center;
+    function toggleMethod(methodName) {
+      const methodDiv = document.getElementById(methodName);
+      methodDiv.classList.toggle("hidden");
     }
+</script>
 
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: left;
-    }
-
-    .header {
-      background-color: #161b22;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 80px;
-    }
-
-    .header h1 {
-      margin: 0;
-      font-size: 24px;
-    }
-    p {
-      color: #8b949e;
-    }
-    .code {
-      font-family: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;
-    }
-    .hljs {
-      display: block;
-      padding: 0.5em;
-      background-color: #161b22;
-      border-radius: 15px;
-    }
-    .hljs-ln-numbers {
-      padding: 0 5px 0 0!important;
-      color: #8b949e;
-    }
-  </style>
-</head>
-<body>
-  <div class="header">
-    <h1>API Documentation</h1>
-  </div>
-  <div class="container">
-    <p>Welcome to my little API documentation. Below you will find a list of available API methods and examples of their use.</p><br>
-    <h2>Endpoint</h2>
-    <p>Our API endpoint is located at <code onclick="copyTextElement(this)">https://api.hella.team</code>. At the moment, the most up-to-date version of the API==2</p><br>
-    <h2>Authentication</h2>
-    <p>For authorization, you must specify <code onclick="copyTextElement(this)">access_token</code> as a parameter, you can get it <a href="https://vk.com/im?sel=-210709215">here</a>. If you do not specify <code onclick="copyTextElement(this)">access_token</code>, then the limits will be very strict.</p><br>
-    <h2>API Methods</h2>
-    <ul>
+<div class="container">
+  <p>Welcome to my little API documentation. Below you will find a list of available API methods and examples of their use.</p><br>
+  <h2>Endpoint</h2>
+  <p>Our API endpoint is located at <code onclick="copyTextElement(this)">https://api.hella.team</code>. At the moment, the most up-to-date version of the API==2</p><br>
+  <h2>Authentication</h2>
+  <p>For authorization, you must specify <code onclick="copyTextElement(this)">access_token</code> as a parameter, you can get it <a href="https://vk.com/im?sel=-210709215">here</a>. If you do not specify <code onclick="copyTextElement(this)">access_token</code>, then the limits will be very strict.</p><br>
+  <h2>API Methods</h2>
+  <ul>
+    {% for methodName, methodData in apiMethods.items() %}
       <li>
-        <h3 onclick="copyTextElement(this)">GetStickers</h3>
-        <p>Get user stickers. Here's how to use it:</p>
-        <pre class="hljs">
-          <code class="language-python">import requests
+        <h3 onclick="toggleMethod('{{ methodName }}')">{{ methodName }}</h3>
+          <div class="hidden" id="{{ methodName }}">
+            <p>{{ methodData.description }}</p>
+            <pre class="hljs">
+              <code class="language-python">{{ methodData.code }}</code>
+            </pre>
+            <h3>Output:</h3>
+            <pre class="hljs">
+              <code class="language-json">{{ methodData.output }}</code>
+            </pre>
+          </div>
 
-url = "https://api.hella.team/method/getStickers"
-params = {
-    "v": "2",
-    "user_id": 1
-}
-
-resp = requests.get(url, params=params)
-if resp.status_code != 200:
-    raise Exception("Error: {}".format(resp.status_code))
-print(resp.json())
-          </code>
-        </pre>
-        <h3>Output:</h3>
-        <pre>
-          <code class="language-json">{
-    "object": {
-        "all_price": 10626,
-        "all_price_vote": 1518,
-        "count": 196,
-        "items": {
-            "animation": {
-                "count": 9,
-                "names": [
-                    "Пси-Кот",
-                    "Анимированный Сеня",
-                    [...]
-                ],
-                "price_vote": 160
-            },
-            "free": {
-                "count": 48,
-                "names": [
-                    "Фруктовощи",
-                    "Спотти",
-                    "Персик",
-                    [...]
-                ],
-                "price_vote": 0
-            },
-            "stickers": {
-                "count": 148,
-                "names": [
-                    "Эвелина",
-                    "Роберт",
-                    [...]
-                ],
-                "price_vote": 1518
-            },
-            "styles": {
-                "count": 0,
-                "names": [],
-                "price_vote": 0
-            },
-            "unique": {
-                "count": 42,
-                "names": [
-                    "EeOneGuy",
-                    "«Зенит»",
-                    "«Спартак»",
-                    [...]
-                ],
-                "price_vote": 0
-            }
-        }
-    },
-    "ok": true
-}
-          </code>
-        </pre>
       </li>
-
-      <li>
-          <h3 onclick="copyTextElement(this)">GetSticker</h3>
-        <p>Get information about the sticker pack, required parameter <code onclick="copyTextElement(this)">product_id</code></p>
-          <pre class="hljs">
-          <code class="language-python">import requests
-
-url = "https://api.hella.team/method/getSticker"
-params = {
-    "v": "2",
-    "sticker_id": 1,
-    "product_id": 1
-}
-
-resp = requests.get(url, params=params)
-if resp.status_code != 200:
-    raise Exception("Error: {}".format(resp.status_code))
-print(resp.json())
-          </code>
-        </pre>
-        <h3>Output:</h3>
-        <pre>
-          <code class="language-json">{
-    "object": {
-        "author": "Андрей Яковенко",
-        "author_id": 11316927,
-        "count": 49,
-        "description": "Чемпион по вилянию хвостом, верный друг и надёжная грелк
-а.",
-        "is_anim": false,
-        "is_new": false,
-        "items": [
-            "лол",
-            "хаха",
-            "ахах",
-            "ржач",
-            [...]
-        ],
-        "price": 0,
-        "style_orig": false,
-        "title": "Спотти",
-        "unique": false
-    },
-    "ok": true
-}
-          </code>
-        </pre>
-      </li>
-      <p>More methods will be added soon.</p>
-    </ul>
-  </div>
-</body>
-</html>
+    {% endfor %}
+    <p>More methods will be added soon.</p>
+  </ul>
+</div>
+{% endblock %}
