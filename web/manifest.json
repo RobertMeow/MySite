@@ -1,0 +1,12 @@
+{
+    "name": "berht_dev",
+    "short_name": "berht_dev",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#0175C2",
+    "theme_color": "#0175C2",
+    "description": "...",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "icons": []
+}
