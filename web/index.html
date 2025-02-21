@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="description" content="My Business Card">
+    <title>My Business Card</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="favicon32x32RGBA.gif" type="image/gif">
+    <style>
+      body { 
+        background-color: #010409;
+        margin: 0;
+        padding: 0;
+      }
+
+      .loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background-color: #010409;
+        color: white;
+        font-family: 'Helvetica Neue', sans-serif;
+      }
+      
+      .blinking-text {
+        font-weight: bold;
+        font-size: 32px;
+        color: white;
+        animation: blink 2.5s infinite;
+      }
+      
+      @keyframes blink {
+        0% {
+          opacity: 1;
+          text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+        50% {
+          opacity: 0.3;
+          text-shadow: none;
+        }
+        100% {
+          opacity: 1;
+          text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="loading" id="loading">
+      <div class="blinking-text">berht.dev</div>
+    </div>
+
+    <script>
+      {{flutter_js}}
+      {{flutter_build_config}}
+
+      _flutter.loader.load({
+        onEntrypointLoaded: (engineInitializer) => {
+          engineInitializer.initializeEngine({ useColorEmoji: true })
+            .then((appRunner) => {
+              appRunner.runApp();
+              document.getElementById('loading').remove();
+            });
+        },
+      });
+    </script>
+  </body>
+</html>
